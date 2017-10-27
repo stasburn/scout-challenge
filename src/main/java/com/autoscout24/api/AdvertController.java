@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.autoscout24.api.exceptions.IllegalAdvertStateException;
 import com.autoscout24.domain.Advert;
 import com.autoscout24.domain.AdvertRepository;
 import com.autoscout24.domain.Fuel;
@@ -28,10 +29,15 @@ public class AdvertController {
         return new ArrayList<Advert>();
     }
 
+    @RequestMapping(value = "/advert", method = RequestMethod.GET)
+    public Advert get() {
+        return null;
+    }
+
     @RequestMapping(value = "/advert", method = RequestMethod.POST)
     public Advert create() throws Exception {
-
-        return null;
+        throw new IllegalAdvertStateException();
+//        return null;
     }
 
     @RequestMapping(value = "/advert", method = RequestMethod.DELETE)

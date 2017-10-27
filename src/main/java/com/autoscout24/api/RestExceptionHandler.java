@@ -1,5 +1,7 @@
 package com.autoscout24.api;
 
+import com.autoscout24.api.exceptions.AdNotFoundException;
+import com.autoscout24.api.exceptions.IllegalAdvertStateException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -71,6 +74,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleEntityNotFound(
             AdNotFoundException ex) {
         ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(IllegalAdvertStateException.class)
+    protected ResponseEntity<Object> handleEntityNotFound(
+            IllegalAdvertStateException ex) {
+        ApiError apiError = new ApiError(UNPROCESSABLE_ENTITY);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

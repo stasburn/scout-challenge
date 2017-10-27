@@ -1,5 +1,6 @@
 package com.autoscout24.unit.controllers;
 
+import com.autoscout24.api.AdNotFoundException;
 import com.autoscout24.api.AdvertController;
 import com.autoscout24.domain.Advert;
 import com.autoscout24.domain.Fuel;
@@ -42,19 +43,18 @@ public class AdvertControllerTest {
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].title2", is(ad.getTitle())));
+                .andExpect(jsonPath("$[0].title", is(ad.getTitle())));
     }
 
     @Test
     public void test_create_ad_newcar_with_mileage() throws Exception {
         Advert ad = new Advert(1,"BMW i3", Fuel.GAS, 20000,true,5000, LocalDate.now());
-        List<Advert> allAds = singletonList(ad);
-        given(advertController.create()).willThrow(new Exception());
+        given(advertController.create()).willThrow(new AdNotFoundException());
         mvc.perform(post("/advert")
                 .contentType(APPLICATION_JSON))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("city", is(ad.getTitle())));
+                .andExpect(status().is4xxClientError());
     }
+
 
 
 }

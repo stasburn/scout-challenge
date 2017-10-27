@@ -23,20 +23,24 @@ public class AdvertController {
 
     AdvertRepository advertRepository;
 
-    @RequestMapping(value="/test")
-    public Advert greeting(@RequestParam(value="name", defaultValue="World") String name) {
-
-        return new Advert(counter.incrementAndGet(),
-                String.format(template, name), Fuel.DIESEL, 18000, false, 5000, LocalDate.now());
-    }
-
     @RequestMapping(value = "/adverts", method = RequestMethod.GET)
     public List<Advert> list() {
         return new ArrayList<Advert>();
     }
 
-
+    @RequestMapping(value = "/advert", method = RequestMethod.POST)
     public Advert create() throws Exception {
-        throw new Exception();
+
+        return null;
+    }
+
+    @RequestMapping(value = "/advert", method = RequestMethod.DELETE)
+    public Advert delete() throws Exception {
+        return null;//throw new AdNotFoundException();
+    }
+
+    @RequestMapping(value = "/advert", method = RequestMethod.PUT)
+    public Advert update() throws Exception {
+        return null;//throw new AdNotFoundException();
     }
 }

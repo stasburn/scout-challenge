@@ -27,6 +27,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -148,6 +149,21 @@ public class AdvertControllerTest {
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.subErrors", hasSize(1)));
+    }
+
+    @Test
+    public void delete_ad() throws Exception {
+
+        final String idToDelete = "39c55672-c683-4823-a28c-07c229adae2b";
+        String body = "{\"id\":\"39c55672-c683-4823-a28c-07c229adae2b\", \"title\": \"BMW i3\", \"fuel\": \"Gasoline\", \"price\": 10000, \"new\" : false, \"mileage\": 1000, \"firstRegistration\": \"2017-01-01\"}";
+
+        Advert ad = mapper.readValue(body, Advert.class);
+        given(advertController.delete(idToDelete)).willReturn(ad);
+
+        mvc.perform(delete("/advert/"+ idToDelete)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is(ad.getTitle())));
     }
 
 }

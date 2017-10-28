@@ -1,5 +1,6 @@
 package com.autoscout24.api;
 
+import com.autoscout24.api.exceptions.AdNotFoundException;
 import com.autoscout24.domain.Advert;
 import com.autoscout24.domain.repositories.AdvertRepository;
 import org.slf4j.Logger;
@@ -46,9 +47,12 @@ public class AdvertController {
         return saved;
     }
 
-    @RequestMapping(value = "/advert", method = RequestMethod.DELETE)
-    public Advert delete(@PathVariable String id) throws Exception {
+    @RequestMapping(value = "/advert/{id}", method = RequestMethod.DELETE)
+    public Advert delete(@PathVariable("id") String id) throws Exception {
         final Advert adToDelete = advertRepository.findOne(id);
+        if(adToDelete == null){
+            throw new AdNotFoundException();
+        }
         advertRepository.delete(adToDelete);
         return adToDelete;
     }

@@ -13,12 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.time.LocalDate;
@@ -45,8 +43,7 @@ public class AdvertRepositoryIntegrationTest {
     @Autowired
     AdvertRepository advertRepository;
 
-    private static final int EXPECTED_COST = 20000;
-    private static final String EXPECTED_PRICE = "50";
+    private static final int EXPECTED_PRICE = 20000;
 
     @Before
     public void setup() throws Exception {
@@ -68,11 +65,11 @@ public class AdvertRepositoryIntegrationTest {
 
     @Test
     public void givenItemWithExpectedCost_whenRunFindAll_thenItemIsFound() {
-        Advert ad = new Advert("BMW i3", Fuel.GAS.toString(), 20000,true,0, LocalDate.now());
+        Advert ad = new Advert("BMW i3", Fuel.GAS.type(), 20000,true,0, LocalDate.now());
         advertRepository.save(ad);
 
         List<Advert> result = (List<Advert>) advertRepository.findAll();
         assertTrue("Not empty", result.size() > 0);
-        assertTrue("Contains item with expected cost", EXPECTED_COST == result.get(0).getPrice());
+        assertTrue("Contains item with expected cost", EXPECTED_PRICE == result.get(0).getPrice());
     }
 }

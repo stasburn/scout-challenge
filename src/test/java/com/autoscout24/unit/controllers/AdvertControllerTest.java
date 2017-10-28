@@ -42,7 +42,7 @@ public class AdvertControllerTest {
 
     @Test
     public void test_ads_list() throws Exception {
-        Advert ad = new Advert("BMW i3", Fuel.GAS, 20000,true,0, LocalDate.now());
+        Advert ad = new Advert("BMW i3", Fuel.GAS.type(), 20000,true,0, LocalDate.now());
         List<Advert> allAds = singletonList(ad);
         given(advertController.list()).willReturn(allAds);
 
@@ -67,7 +67,7 @@ public class AdvertControllerTest {
 
     @Test
     public void test_create_ad() throws Exception {
-        Advert ad = new Advert("BMW i3", Fuel.ELECTRIC, 25000,true,0, LocalDate.now());
+        Advert ad = new Advert("BMW i3", Fuel.ELECTRIC.type(), 25000,true,0, LocalDate.now());
         String body = "{\"title\": \"BMW i3\", \"fuel\": \"Gasoline\", \"price\": 10000, \"new\" : false, \"mileage\": 1000, \"firstRegistration\": \"2017-01-01\"}";
         given(advertController.create(ad)).willReturn(ad);
 
@@ -88,6 +88,18 @@ public class AdvertControllerTest {
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.subErrors.[0].field", is("title")));
+    }
+
+    @Test
+    public void test_create_ad_unsupported_fuel() throws Exception {
+        String body = "{\"title\": \"BMW i3\", \"fuel\": \"Samogonka\", \"price\": 10000, \"new\" : true}";
+        Advert ad = mapper.readValue(body, Advert.class);
+        given(advertController.create(ad)).willReturn(ad);
+
+        mvc.perform(post("/advert").content(body)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.subErrors", hasSize(1)));;
     }
 
 }

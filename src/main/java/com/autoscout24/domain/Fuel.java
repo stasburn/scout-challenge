@@ -1,8 +1,16 @@
 package com.autoscout24.domain;
 
-public interface Fuel {
-    
-    String DIESEL = "Diesel";
-    String GAS = "Gasoline";
-    String ELECTRIC = "Electric";
+public enum Fuel {
+    DIESEL("Diesel"),
+    GAS("Gasoline"),
+    ELECTRIC("Electric");
+    private String fuelType;
+
+    Fuel(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public String type(){
+        return fuelType;
+    }
 }

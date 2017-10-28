@@ -1,6 +1,7 @@
 package com.autoscout24.domain;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.autoscout24.domain.validation.IsFuelTypeSupported;
 import com.autoscout24.domain.validation.IsValidUsedCarAdvert;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -22,6 +23,7 @@ public class Advert {
 
     @DynamoDBTypeConvertedEnum
     @DynamoDBAttribute
+    @IsFuelTypeSupported
     private String fuel;
 
     @DynamoDBAttribute
@@ -38,7 +40,6 @@ public class Advert {
     @DynamoDBAttribute
     @DynamoDBTypeConverted(converter = LocalDateConverter.class)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotNull
     private LocalDate firstRegistration;
 
     public Advert(){

@@ -68,7 +68,7 @@ public class AdvertRepositoryIntegrationTest {
 
     @Test
     public void givenItemWithExpectedCost_whenRunFindAll_thenItemIsFound() {
-        Advert ad = new Advert("BMW i3", Fuel.GAS, 20000,true,0, LocalDate.now());
+        Advert ad = new Advert("BMW i3", Fuel.GAS.toString(), 20000,true,0, LocalDate.now());
         advertRepository.save(ad);
 
         List<Advert> result = (List<Advert>) advertRepository.findAll();

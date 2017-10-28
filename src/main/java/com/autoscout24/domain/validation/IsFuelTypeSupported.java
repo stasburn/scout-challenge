@@ -4,12 +4,12 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = { IsValidUsedCarAdvertValidator.class })
-public @interface IsValidUsedCarAdvert {
-    String message() default "There some problems with advert data";
+@Constraint(validatedBy = { IsValidFuelTypeValidator.class })
+public @interface IsFuelTypeSupported {
+    String message() default "Fuel type is not supported";
 
     Class<?>[] groups() default {};
 

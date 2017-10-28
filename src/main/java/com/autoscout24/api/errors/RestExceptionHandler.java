@@ -1,6 +1,5 @@
 package com.autoscout24.api.errors;
 
-import com.autoscout24.api.errors.ApiError;
 import com.autoscout24.api.exceptions.AdNotFoundException;
 import com.autoscout24.api.exceptions.IllegalAdvertStateException;
 import org.springframework.core.Ordered;
@@ -20,9 +19,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice

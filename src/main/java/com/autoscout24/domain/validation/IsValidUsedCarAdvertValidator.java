@@ -15,7 +15,7 @@ public class IsValidUsedCarAdvertValidator implements ConstraintValidator<IsVali
     public boolean isValid(Advert value, ConstraintValidatorContext context) {
         if (value == null) return true;
         boolean isValid = true;
-        if (value.isNew()) {
+        if (Boolean.TRUE == value.isNew()) {
             if (value.getMileage() > 0) {
                 context.disableDefaultConstraintViolation();
                 context.buildConstraintViolationWithTemplate("New car cant have mileage")

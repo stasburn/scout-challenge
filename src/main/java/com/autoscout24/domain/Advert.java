@@ -28,11 +28,11 @@ public class Advert {
 
     @DynamoDBAttribute
     @NotNull
-    private int price;
+    private Integer price;
 
     @DynamoDBAttribute
     @NotNull
-    private boolean isNew;
+    private Boolean isNew;
 
     @DynamoDBAttribute
     private int mileage;
@@ -68,11 +68,11 @@ public class Advert {
         return fuel;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public boolean isNew() {
+    public Boolean isNew() {
         return isNew;
     }
 
@@ -97,11 +97,11 @@ public class Advert {
         this.fuel = fuel;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public void setNew(boolean aNew) {
+    public void setNew(Boolean aNew) {
         isNew = aNew;
     }
 

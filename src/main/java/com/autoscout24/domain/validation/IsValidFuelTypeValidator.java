@@ -15,6 +15,6 @@ public class IsValidFuelTypeValidator implements ConstraintValidator<IsFuelTypeS
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return  value == null || Arrays.stream(Fuel.values()).anyMatch(t -> t.name().equals(value));
+        return  value == null || Arrays.stream(Fuel.values()).anyMatch(t -> t.type().equals(value));
     }
 }

@@ -4,4 +4,5 @@ public interface Fuel {
     
     String DIESEL = "Diesel";
     String GAS = "Gasoline";
+    String ELECTRIC = "Electric";
 }

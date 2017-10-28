@@ -1,6 +1,7 @@
 package com.autoscout24.domain;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
@@ -23,6 +24,7 @@ public class Advert {
     private int mileage;
     @DynamoDBAttribute
     @DynamoDBTypeConverted(converter = LocalDateConverter.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate firstReg;
 
     public Advert(){
@@ -30,7 +32,7 @@ public class Advert {
     }
 
     public Advert(String title, String fuel, int price, boolean isNew, int mileage, LocalDate firstReg) {
-        this.id = id;
+
         this.title = title;
         this.fuel = fuel;
         this.price = price;

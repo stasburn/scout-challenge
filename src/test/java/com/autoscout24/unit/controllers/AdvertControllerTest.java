@@ -1,10 +1,10 @@
 package com.autoscout24.unit.controllers;
 
-import com.autoscout24.api.exceptions.AdNotFoundException;
 import com.autoscout24.api.AdvertController;
 import com.autoscout24.api.exceptions.IllegalAdvertStateException;
 import com.autoscout24.domain.Advert;
 import com.autoscout24.domain.Fuel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,9 @@ public class AdvertControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @MockBean
     private AdvertController advertController;
 
@@ -51,7 +54,7 @@ public class AdvertControllerTest {
     @Test
     public void test_create_ad_newcar_with_mileage() throws Exception {
         Advert ad = new Advert("BMW i3", Fuel.GAS, 20000,true,5000, LocalDate.now());
-        given(advertController.create()).willThrow(new IllegalAdvertStateException());
+        given(advertController.create(ad)).willThrow(new IllegalAdvertStateException());
 
         mvc.perform(post("/advert")
                 .contentType(APPLICATION_JSON))
@@ -59,8 +62,15 @@ public class AdvertControllerTest {
 
     }
 
+    @Test
+    public void test_create_ad() throws Exception {
+        Advert ad = new Advert("BMW i3", Fuel.ELECTRIC, 25000,true,0, LocalDate.now());
+        given(advertController.create(ad)).willReturn(ad);
 
-
-
+        final String content = mapper.writeValueAsString(ad);
+        mvc.perform(post("/advert").content(content)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
 }

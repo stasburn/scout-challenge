@@ -65,12 +65,14 @@ public class AdvertControllerTest {
     @Test
     public void test_create_ad() throws Exception {
         Advert ad = new Advert("BMW i3", Fuel.ELECTRIC, 25000,true,0, LocalDate.now());
+        String body = "{\"title\": \"BMW i3\", \"fuel\": \"Gasoline\", \"price\": 10000, \"new\" : false, \"mileage\": 1000, \"firstRegistration\": \"2017-01-01\"}";
         given(advertController.create(ad)).willReturn(ad);
 
         final String content = mapper.writeValueAsString(ad);
-        mvc.perform(post("/advert").content(content)
+        mvc.perform(post("/advert").content(body)
                 .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is(ad.getTitle())));
     }
 
 }

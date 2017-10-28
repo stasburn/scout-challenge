@@ -25,7 +25,7 @@ public class Advert {
     @DynamoDBAttribute
     @DynamoDBTypeConverted(converter = LocalDateConverter.class)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate firstReg;
+    private LocalDate firstRegistration;
 
     public Advert(){
 
@@ -38,7 +38,7 @@ public class Advert {
         this.price = price;
         this.isNew = isNew;
         this.mileage = mileage;
-        this.firstReg = firstReg;
+        this.firstRegistration = firstReg;
     }
 
     public String getId() {
@@ -65,8 +65,8 @@ public class Advert {
         return mileage;
     }
 
-    public LocalDate getFirstReg() {
-        return firstReg;
+    public LocalDate getFirstRegistration() {
+        return firstRegistration;
     }
 
 
@@ -94,7 +94,7 @@ public class Advert {
         this.mileage = mileage;
     }
 
-    public void setFirstReg(LocalDate firstReg) {
-        this.firstReg = firstReg;
+    public void setFirstRegistration(LocalDate firstRegistration) {
+        this.firstRegistration = firstRegistration;
     }
 }

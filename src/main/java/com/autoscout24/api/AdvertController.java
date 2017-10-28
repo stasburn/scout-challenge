@@ -2,6 +2,7 @@ package com.autoscout24.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.autoscout24.api.exceptions.IllegalAdvertStateException;
@@ -37,22 +38,27 @@ public class AdvertController {
 
     @RequestMapping(value = "/advert", method = RequestMethod.GET)
     public Advert get() {
-        return null;
+        return advertRepository.findOne("01f508f8-3895-45e2-a5fb-e7a4eded49fa");
     }
 
     @RequestMapping(value = "/advert", method = RequestMethod.POST)
     public Advert create(@RequestBody Advert ad) throws Exception {
+        ad.setId(null); //id field is ignored during create operation.
         log.info("incoming post call " + ad);
-        return ad;
+        final Advert saved = advertRepository.save(ad);
+        return saved;
     }
 
     @RequestMapping(value = "/advert", method = RequestMethod.DELETE)
     public Advert delete() throws Exception {
-        return null;//throw new AdNotFoundException();
+        final Advert adToDelete = advertRepository.findOne("01f508f8-3895-45e2-a5fb-e7a4eded49fa");
+        advertRepository.delete("01f508f8-3895-45e2-a5fb-e7a4eded49fa");//throw new AdNotFoundException();
+        return adToDelete;
     }
 
     @RequestMapping(value = "/advert", method = RequestMethod.PUT)
-    public Advert update() throws Exception {
-        return null;//throw new AdNotFoundException();
+    public Advert update(@RequestBody Advert ad) throws Exception {
+        advertRepository.save(ad);
+        return ad;
     }
 }

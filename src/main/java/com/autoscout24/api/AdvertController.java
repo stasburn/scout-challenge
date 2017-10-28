@@ -22,7 +22,7 @@ public class AdvertController {
     private static final String template = "BMW i3";
     private final AtomicLong counter = new AtomicLong();
 
-    final AdvertRepository advertRepository;
+    private final AdvertRepository advertRepository;
 
     @Autowired
     public AdvertController(AdvertRepository advertRepository) {

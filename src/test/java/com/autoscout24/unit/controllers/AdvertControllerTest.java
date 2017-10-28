@@ -75,4 +75,16 @@ public class AdvertControllerTest {
                 .andExpect(jsonPath("$.title", is(ad.getTitle())));
     }
 
+    @Test
+    public void test_title_is_mandatory() throws Exception {
+        String missingTitleRequest = "{\"fuel\": \"Gasoline\", \"price\": 10000, \"new\" : false, \"mileage\": 1000, \"firstRegistration\": \"2017-01-01\"}";
+        Advert ad = mapper.readValue(missingTitleRequest, Advert.class);
+        given(advertController.create(ad)).willReturn(ad);
+
+        mvc.perform(post("/advert").content(missingTitleRequest)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.subErrors.[0].field", is("title")));
+    }
+
 }

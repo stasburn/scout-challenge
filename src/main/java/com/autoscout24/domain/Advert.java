@@ -1,6 +1,7 @@
 package com.autoscout24.domain;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.autoscout24.domain.validation.IsValidUsedCarAdvert;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 
 @DynamoDBDocument
 @DynamoDBTable(tableName = "Advert")
+@IsValidUsedCarAdvert
 public class Advert {
 
     @DynamoDBHashKey

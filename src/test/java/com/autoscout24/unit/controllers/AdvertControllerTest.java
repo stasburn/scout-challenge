@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(AdvertController.class)
+//@ComponentScan(basePackages = "com.autoscout24")
 public class AdvertControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -52,14 +54,15 @@ public class AdvertControllerTest {
     }
 
     @Test
-    public void test_create_ad_newcar_with_mileage() throws Exception {
-        Advert ad = new Advert("BMW i3", Fuel.GAS, 20000,true,5000, LocalDate.now());
-        given(advertController.create(ad)).willThrow(new IllegalAdvertStateException());
+    public void test_create_ad_new_car_with_mileage_and_firstRegistration() throws Exception {
+        String body = "{\"title\": \"BMW i3\", \"fuel\": \"Gasoline\", \"price\": 10000, \"new\" : true, \"mileage\": 1000, \"firstRegistration\": \"2017-01-01\"}";
+        Advert ad = mapper.readValue(body, Advert.class);
+        given(advertController.create(ad)).willReturn(ad);
 
-        mvc.perform(post("/advert")
+        mvc.perform(post("/advert").content(body)
                 .contentType(APPLICATION_JSON))
-                .andExpect(status().isUnprocessableEntity());
-
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.subErrors", hasSize(2)));;
     }
 
     @Test

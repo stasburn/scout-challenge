@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
+@ComponentScan("com.autoscout24")
 public class Application {
 
 	public static void main(String[] args) {

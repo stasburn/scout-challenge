@@ -1,18 +1,21 @@
-package com.autoscout24.api;
+package com.autoscout24.api.errors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 import javax.validation.ConstraintViolation;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@JsonTypeIdResolver(LowerCaseClassNameResolver.class)
 public class ApiError {
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -22,6 +25,34 @@ public class ApiError {
     private List<ApiSubError> subErrors;
     private ApiError() {
         timestamp = LocalDateTime.now();
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setSubErrors(List<ApiSubError> subErrors) {
+        this.subErrors = subErrors;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getDebugMessage() {
+        return debugMessage;
+    }
+
+    public List<ApiSubError> getSubErrors() {
+        return subErrors;
     }
 
     ApiError(HttpStatus status) {
@@ -105,50 +136,22 @@ public class ApiError {
     }
 
 
-    abstract class ApiSubError {
+}
 
+class LowerCaseClassNameResolver extends TypeIdResolverBase {
+
+    @Override
+    public String idFromValue(Object value) {
+        return value.getClass().getSimpleName().toLowerCase();
     }
 
-    class ApiValidationError extends ApiSubError {
-        private String object;
-        private String field;
-        private Object rejectedValue;
-        private String message;
+    @Override
+    public String idFromValueAndType(Object value, Class<?> suggestedType) {
+        return idFromValue(value);
+    }
 
-        ApiValidationError(String object, String message) {
-            this.object = object;
-            this.message = message;
-        }
-
-        public ApiValidationError(String object, String field, Object rejectedValue, String message) {
-            super();
-            this.object = object;
-            this.field = field;
-            this.rejectedValue = rejectedValue;
-            this.message = message;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            ApiValidationError that = (ApiValidationError) o;
-
-            if (object != null ? !object.equals(that.object) : that.object != null) return false;
-            if (field != null ? !field.equals(that.field) : that.field != null) return false;
-            if (rejectedValue != null ? !rejectedValue.equals(that.rejectedValue) : that.rejectedValue != null)
-                return false;
-            return message != null ? message.equals(that.message) : that.message == null;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = object != null ? object.hashCode() : 0;
-            result = 31 * result + (field != null ? field.hashCode() : 0);
-            result = 31 * result + (rejectedValue != null ? rejectedValue.hashCode() : 0);
-            result = 31 * result + (message != null ? message.hashCode() : 0);
-            return result;
-        }
+    @Override
+    public JsonTypeInfo.Id getMechanism() {
+        return JsonTypeInfo.Id.CUSTOM;
     }
 }

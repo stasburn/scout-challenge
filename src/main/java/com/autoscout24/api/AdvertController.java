@@ -11,10 +11,8 @@ import com.autoscout24.domain.repositories.AdvertRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AdvertController {
@@ -37,12 +35,12 @@ public class AdvertController {
     }
 
     @RequestMapping(value = "/advert", method = RequestMethod.GET)
-    public Advert get() {
-        return advertRepository.findOne("01f508f8-3895-45e2-a5fb-e7a4eded49fa");
+    public Advert get(@PathVariable String id) {
+        return advertRepository.findOne(id);
     }
 
     @RequestMapping(value = "/advert", method = RequestMethod.POST)
-    public Advert create(@RequestBody Advert ad) throws Exception {
+    public Advert create(@Validated @RequestBody Advert ad) throws Exception {
         ad.setId(null); //id field is ignored during create operation.
         log.info("incoming post call " + ad);
         final Advert saved = advertRepository.save(ad);
@@ -50,9 +48,9 @@ public class AdvertController {
     }
 
     @RequestMapping(value = "/advert", method = RequestMethod.DELETE)
-    public Advert delete() throws Exception {
-        final Advert adToDelete = advertRepository.findOne("01f508f8-3895-45e2-a5fb-e7a4eded49fa");
-        advertRepository.delete("01f508f8-3895-45e2-a5fb-e7a4eded49fa");//throw new AdNotFoundException();
+    public Advert delete(@PathVariable String id) throws Exception {
+        final Advert adToDelete = advertRepository.findOne(id);
+        advertRepository.delete(adToDelete);//throw new AdNotFoundException();
         return adToDelete;
     }
 

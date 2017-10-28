@@ -1,5 +1,6 @@
-package com.autoscout24.api;
+package com.autoscout24.api.errors;
 
+import com.autoscout24.api.errors.ApiError;
 import com.autoscout24.api.exceptions.AdNotFoundException;
 import com.autoscout24.api.exceptions.IllegalAdvertStateException;
 import org.springframework.core.Ordered;

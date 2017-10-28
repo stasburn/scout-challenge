@@ -37,7 +37,7 @@ public class AdvertControllerTest {
 
     @Test
     public void test_ads_list() throws Exception {
-        Advert ad = new Advert(1,"BMW i3", Fuel.GAS, 20000,true,0, LocalDate.now());
+        Advert ad = new Advert("BMW i3", Fuel.GAS, 20000,true,0, LocalDate.now());
         List<Advert> allAds = singletonList(ad);
         given(advertController.list()).willReturn(allAds);
 
@@ -50,7 +50,7 @@ public class AdvertControllerTest {
 
     @Test
     public void test_create_ad_newcar_with_mileage() throws Exception {
-        Advert ad = new Advert(1,"BMW i3", Fuel.GAS, 20000,true,5000, LocalDate.now());
+        Advert ad = new Advert("BMW i3", Fuel.GAS, 20000,true,5000, LocalDate.now());
         given(advertController.create()).willThrow(new IllegalAdvertStateException());
 
         mvc.perform(post("/advert")

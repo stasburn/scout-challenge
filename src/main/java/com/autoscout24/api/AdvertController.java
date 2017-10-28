@@ -59,6 +59,17 @@ public class AdvertController {
 
     @RequestMapping(value = "/advert", method = RequestMethod.PUT)
     public Advert update(@Validated @RequestBody Advert ad) throws Exception {
+
+        final Advert storedAd = advertRepository.findOne(ad.getId());
+        if(storedAd == null){
+            throw new AdNotFoundException();
+        }
+        storedAd.setTitle(ad.getTitle());
+        storedAd.setFuel(ad.getFuel());
+        storedAd.setPrice(ad.getPrice());
+        storedAd.setFirstRegistration(ad.getFirstRegistration());
+        storedAd.setMileage(ad.getMileage());
+        storedAd.setNew(ad.isNew());
         advertRepository.save(ad);
         return ad;
     }

@@ -34,8 +34,8 @@ public class AdvertController {
         return res;
     }
 
-    @RequestMapping(value = "/advert", method = RequestMethod.GET)
-    public Advert get(@PathVariable String id) {
+    @RequestMapping(value = "/advert/{id}", method = RequestMethod.GET)
+    public Advert get(@PathVariable("id") String id) {
         return advertRepository.findOne(id);
     }
 

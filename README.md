@@ -1,4 +1,4 @@
-###Prerequisites
+### Prerequisites
 * Java version 1.8.0_162. Lower versions could not work because of the [issue](http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8170041)
 * DynamoDB on http://localhost:8000. If you use Docker: 
 ```sh
@@ -6,7 +6,7 @@ docker run -v "$PWD":/dynamodb_local_db -p 8000:8000 cnadiminti/dynamodb-local:l
 ```
 If you have your own installation of DynamoDB, please provide endpoint and credentials in [config file](src/main/resources/application.properties)  
 ### How to build
-Project containts maven wrapper. Check your JAVA_HOME and run
+Project has maven wrapper. Check your JAVA_HOME and run
 ```sh
 ./mvnw install
 ```

@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 @ActiveProfiles("local")
-@TestPropertySource(properties = { "amazon.dynamodb.endpoint=http://localhost:8000/", "amazon.aws.accesskey=key", "amazon.aws.secretkey=keySecret" })
+//@TestPropertySource(properties = { "amazon.dynamodb.endpoint=http://localhost:8000/", "amazon.aws.accesskey=key", "amazon.aws.secretkey=keySecret" })
 public class AdvertRepositoryIntegrationTest {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -64,7 +64,7 @@ public class AdvertRepositoryIntegrationTest {
     }
 
     @Test
-    public void givenItemWithExpectedCost_whenRunFindAll_thenItemIsFound() {
+    public void saved_advert_with_expected_price_then_found() {
         Advert ad = new Advert("BMW i3", Fuel.GAS.type(), 20000,true,0, LocalDate.now());
         advertRepository.save(ad);
 

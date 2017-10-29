@@ -57,19 +57,13 @@ public class AdvertController {
         return adToDelete;
     }
 
-    @RequestMapping(value = "/advert", method = RequestMethod.PUT)
-    public Advert update(@Validated @RequestBody Advert ad) throws Exception {
+    @PutMapping("/advert/{id}")
+    public Advert update(@Validated @RequestBody Advert ad, @PathVariable("id") String id) throws Exception {
 
-        final Advert storedAd = advertRepository.findOne(ad.getId());
+        final Advert storedAd = advertRepository.findOne(id);
         if(storedAd == null){
             throw new AdNotFoundException();
         }
-        storedAd.setTitle(ad.getTitle());
-        storedAd.setFuel(ad.getFuel());
-        storedAd.setPrice(ad.getPrice());
-        storedAd.setFirstRegistration(ad.getFirstRegistration());
-        storedAd.setMileage(ad.getMileage());
-        storedAd.setNew(ad.isNew());
         advertRepository.save(ad);
         return ad;
     }
